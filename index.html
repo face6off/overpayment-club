@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Turn small monthly changes into a mortgage-free future. A private, interactive mortgage payoff simulator.">
+  <meta name="description" content="Compare mortgage payments, interest costs, and payoff schedules.">
   <meta name="theme-color" content="#234d3c">
-  <title>Overpayment Club — A little extra. A lot sooner.</title>
+  <title>Overpayment Club | Mortgage Calculator</title>
   <link rel="icon" href="src/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="src/style.css">
   <script type="module" src="src/app.js"></script>
@@ -12,17 +12,17 @@
 <body>
   <header class="masthead">
     <a href="#" class="brand" aria-label="Overpayment Club home"><span class="brand-mark" aria-hidden="true">oc<span>↗</span></span><span>overpayment<br>club<span class="brand-dot">.</span></span></a>
-    <nav aria-label="Main navigation"><a class="active" href="#lab">The payoff lab</a><a href="#scenarios">Your scenarios <span id="scenario-count">0</span></a></nav>
-    <span class="private-label"><span></span> Just you & your browser</span>
+    <nav aria-label="Main navigation"><a class="active" href="#lab">Calculator</a><a href="#scenarios">Saved scenarios <span id="scenario-count">0</span></a></nav>
+    <span class="private-label"><span></span> Stored in your browser</span>
   </header>
   <main id="lab">
     <section class="intro">
-      <div><p class="eyebrow">SMALL MOVES. LONG GAME.</p><h1>A little extra.<br><em>A lot sooner.</em></h1><p class="intro-copy">Your mortgage has a finish line.<br>Let’s see how much closer you can move it.</p></div>
-      <div class="intro-aside"><span class="stamp" aria-hidden="true">LESS INTEREST<br><b>↗</b><br>MORE LIVING</span><p>A what-if space for your biggest loan.<br>No logins. No bank connections. Just math.</p></div>
+      <div><p class="eyebrow">OVERPAYMENT CLUB</p><h1>Mortgage<br><em>calculator.</em></h1><p class="intro-copy">Compare your mortgage with and without extra monthly payments.</p></div>
+      <div class="intro-aside"><span class="stamp" aria-hidden="true">MORTGAGE<br><b>↗</b><br>PAYOFF</span></div>
     </section>
     <section class="lab-grid" aria-label="Mortgage payoff calculator">
       <aside class="controls panel">
-        <div class="section-heading"><span class="step">01</span><h2>Set the starting line</h2></div>
+        <div class="section-heading"><span class="step">01</span><h2>Mortgage details</h2></div>
         <form id="mortgage-form">
           <label for="principal">Remaining mortgage <span>USD</span></label>
           <div class="input-wrap"><span>$</span><input id="principal" name="principal" type="number" min="1000" max="10000000" step="0.01" value="320000" required></div>
@@ -30,29 +30,29 @@
             <div><label for="rate">Annual interest</label><div class="input-wrap"><input id="rate" name="rate" type="number" min="0" max="25" step="0.01" value="5.25" required><span>%</span></div></div>
             <div><label for="years">Years remaining</label><div class="input-wrap"><input id="years" name="years" type="number" min="1" max="40" step="1" value="25" required><span>yr</span></div></div>
           </div>
-          <div class="extra-section"><div class="section-heading"><span class="step">02</span><h2>Make your move</h2></div>
+          <div class="extra-section"><div class="section-heading"><span class="step">02</span><h2>Extra payments</h2></div>
             <label for="extra">Extra each month <span>on top of your payment</span></label>
             <div class="extra-value"><span>$</span><input id="extra" name="extra" aria-label="Extra monthly payment in dollars" type="number" min="0" max="10000" step="0.01" value="250" required><span>/ mo</span></div>
             <input id="extra-slider" aria-label="Adjust extra monthly payment" type="range" min="0" max="2000" step="10" value="250"><div class="range-labels"><span>$0</span><span id="slider-max">$2,000</span></div>
-            <p class="cut-title">Find a little room <span>optional add-ons</span></p>
-            <div class="cuts"><button type="button" class="cut" data-amount="40" aria-pressed="false">Fewer subscriptions <span>+$40</span></button><button type="button" class="cut" data-amount="80" aria-pressed="false">Pack a few lunches <span>+$80</span></button><button type="button" class="cut" data-amount="100" aria-pressed="false">A weekend in <span>+$100</span></button></div>
+            <p class="cut-title">Spending adjustments <span>optional add-ons</span></p>
+            <div class="cuts"><button type="button" class="cut" data-amount="40" aria-pressed="false">Fewer subscriptions <span>+$40</span></button><button type="button" class="cut" data-amount="80" aria-pressed="false">Packed lunches <span>+$80</span></button><button type="button" class="cut" data-amount="100" aria-pressed="false">Entertainment <span>+$100</span></button></div>
           </div>
         </form>
         <p class="input-error" id="input-error" role="alert"></p>
         <button class="save-button" id="save-scenario">Save this scenario <span>↗</span></button>
-        <p class="local-note">Saved on this device. Yours to experiment with.</p>
+        <p class="local-note">Saved in this browser.</p>
       </aside>
       <div class="results">
-        <section class="outcome" aria-label="Your payoff results"><div class="outcome-top"><p class="eyebrow">YOUR FUTURE, WITH A LITTLE EXTRA</p><span class="live-badge">LIVE ESTIMATE</span></div><h2 id="headline">Meet your mortgage-free self.</h2><div class="metric-row"><div><span class="metric-label">Interest you keep</span><strong id="interest-saved">—</strong></div><div class="time-metric"><span class="metric-label">Time you get back</span><strong id="time-saved">—</strong></div></div><p id="outcome-note">A small change, month after month, goes a long way.</p><span class="outcome-flower" aria-hidden="true">✳</span></section>
-        <section class="chart-panel panel"><div class="chart-heading"><div><p class="eyebrow">THE BIG PICTURE</p><h2>Watch the balance fall.</h2></div><button class="text-button" id="export-csv">Export schedule <span>↓</span></button></div><div class="legend"><span><i class="legend-baseline"></i> Original plan</span><span><i class="legend-extra"></i> Your extra-payment plan</span></div><div id="chart" class="chart"></div><div class="payment-strip"><div><span>Regular monthly payment</span><strong id="base-payment">—</strong></div><span class="payment-plus">+</span><div><span>Your monthly extra</span><strong id="extra-payment">—</strong></div><span class="payment-equals">=</span><div><span>New monthly total</span><strong id="total-payment">—</strong></div></div></section>
+        <section class="outcome" aria-label="Your payoff results"><div class="outcome-top"><p class="eyebrow">PAYOFF COMPARISON</p><span class="live-badge">LIVE ESTIMATE</span></div><h2 id="headline">Payment comparison</h2><div class="metric-row"><div><span class="metric-label">Interest saved</span><strong id="interest-saved">-</strong></div><div class="time-metric"><span class="metric-label">Time saved</span><strong id="time-saved">-</strong></div></div><p id="outcome-note"></p><span class="outcome-flower" aria-hidden="true">✳</span></section>
+        <section class="chart-panel panel"><div class="chart-heading"><div><p class="eyebrow">BALANCE HISTORY</p><h2>Remaining balance</h2></div><button class="text-button" id="export-csv">Export schedule <span>↓</span></button></div><div class="legend"><span><i class="legend-baseline"></i> Original plan</span><span><i class="legend-extra"></i> With extra payments</span></div><div id="chart" class="chart"></div><div class="payment-strip"><div><span>Regular monthly payment</span><strong id="base-payment">-</strong></div><span class="payment-plus">+</span><div><span>Your monthly extra</span><strong id="extra-payment">-</strong></div><span class="payment-equals">=</span><div><span>New monthly total</span><strong id="total-payment">-</strong></div></div></section>
       </div>
     </section>
-    <section class="scenarios" id="scenarios"><div class="saved-heading"><div><p class="eyebrow">A FEW POSSIBLE FUTURES</p><h2>Your scenario shelf<span>.</span></h2></div><p>Try a little. Try a lot. Keep the ideas you like.</p></div><div id="scenario-list"></div></section>
-    <section class="fine-print"><span class="note-symbol">i</span><div><h3>A model, not a crystal ball.</h3><p>Estimates use a fixed rate with monthly compounding and payments at month end. Extra payments go straight to principal. Taxes, insurance, fees, penalties, rate changes, and lender-specific rules are excluded. This is an educational tool; check your loan terms before making a decision.</p><button class="text-button" id="show-method">See the math & assumptions ↗</button></div></section>
+    <section class="scenarios" id="scenarios"><div class="saved-heading"><div><p class="eyebrow">SCENARIO COMPARISON</p><h2>Saved scenarios<span>.</span></h2></div></div><div id="scenario-list"></div></section>
+    <section class="fine-print"><span class="note-symbol">i</span><div><h3>Assumptions</h3><p>Uses a fixed rate, monthly compounding, and month-end payments. Excludes taxes, insurance, fees, and prepayment penalties. Your lender’s schedule may differ.</p><button class="text-button" id="show-method">Calculation details ↗</button></div></section>
   </main>
-  <footer><span>overpayment club. <span class="footer-tag">Make room for later.</span></span><span>Built with plain JavaScript. Made for the long game.</span></footer>
-  <dialog id="scenario-dialog"><form id="save-form"><button type="button" class="dialog-close" aria-label="Close dialog">×</button><p class="eyebrow">PUT IT ON THE SHELF</p><h2>Name this possibility.</h2><label for="scenario-name">Scenario name</label><input id="scenario-name" maxlength="50" placeholder="e.g. The packed-lunch plan" required autocomplete="off"><p id="save-description"></p><button class="save-button" type="submit">Save scenario <span>↗</span></button></form></dialog>
-  <dialog id="method-dialog"><button class="dialog-close" aria-label="Close dialog">×</button><p class="eyebrow">UNDER THE HOOD</p><h2>The math behind the move.</h2><p>Monthly payment = P × r ÷ (1 − (1 + r)<sup>−n</sup>), where P is principal, r is annual percentage rate ÷ 1,200, and n is years × 12. At a 0% rate, payment = P ÷ n.</p><p>Every month, interest = remaining balance × r. The rest of your payment, plus your extra, reduces the balance. The final payment is capped at the amount owed.</p><p>Both plans start with the same balance, rate, and term. Interest saved is the difference between their total interest; time saved is the difference in payment counts. Calculation uses full precision; displayed values are rounded.</p><p>All amounts are in USD. The starting numbers are an illustrative example. Local storage keeps your last inputs and up to six saved scenarios on this browser. Clear browser site data to erase them. No data is sent to a server.</p></dialog>
+  <footer><span>Overpayment Club</span></footer>
+  <dialog id="scenario-dialog"><form id="save-form"><button type="button" class="dialog-close" aria-label="Close dialog">×</button><p class="eyebrow">SAVE SCENARIO</p><h2>Save scenario</h2><label for="scenario-name">Scenario name</label><input id="scenario-name" maxlength="50" placeholder="e.g. Extra $250 per month" required autocomplete="off"><p id="save-description"></p><button class="save-button" type="submit">Save scenario <span>↗</span></button></form></dialog>
+  <dialog id="method-dialog"><button class="dialog-close" aria-label="Close dialog">×</button><p class="eyebrow">CALCULATION</p><h2>Mortgage calculation</h2><p>Monthly payment = P × r ÷ (1 − (1 + r)<sup>−n</sup>), where P is principal, r is annual percentage rate ÷ 1,200, and n is years × 12. At a 0% rate, payment = P ÷ n.</p><p>Every month, interest = remaining balance × r. The rest of your payment, plus your extra, reduces the balance. The final payment is capped at the amount owed.</p><p>Both plans start with the same balance, rate, and term. Interest saved is the difference between their total interest; time saved is the difference in payment counts. Calculations use full precision. Displayed amounts are rounded.</p><p>Amounts are in USD. Default inputs are examples. Inputs and up to six scenarios are saved in this browser. Clear site data to remove them. Financial inputs are not sent to a server.</p></dialog>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

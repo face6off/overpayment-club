@@ -40,7 +40,7 @@ function setEnabled(enabled) {
 }
 function update() {
   if (!$('#mortgage-form').checkValidity()) {
-    $('#input-error').textContent = 'Check your numbers: balance $1,000–$10M, rate 0–25%, term 1–40 whole years, extra $0–$10,000. Dollar amounts allow two decimal places.';
+    $('#input-error').textContent = 'Check your numbers: balance $1,000 to $10M, rate 0 to 25%, term 1 to 40 whole years, extra $0 to $10,000. Dollar amounts allow two decimal places.';
     setEnabled(false); return false;
   }
   const baseExtra = Number($('#extra').value);
@@ -57,10 +57,10 @@ function update() {
   $('#extra-slider').value = baseExtra;
   $('#slider-max').textContent = currency(Number($('#extra-slider').max));
   const { baseline, accelerated, savedInterest, savedMonths } = result;
-  $('#headline').textContent = savedMonths > 0 ? `The same home. ${duration(savedMonths)} more freedom.` : 'Your starting line. Your next move.';
+  $('#headline').textContent = savedMonths > 0 ? `Pay off ${duration(savedMonths)} sooner` : 'Original payment schedule';
   $('#interest-saved').textContent = currency(savedInterest);
   $('#time-saved').textContent = duration(savedMonths);
-  $('#outcome-note').textContent = `Paid off in ${duration(accelerated.months)} instead of ${duration(baseline.months)}. ${inputs.extra ? 'That’s the power of showing up monthly.' : 'Add a little extra to explore what changes.'}`;
+  $('#outcome-note').textContent = `Payoff time: ${duration(accelerated.months)}. Original term: ${duration(baseline.months)}.`;
   $('#base-payment').textContent = preciseCurrency(baseline.payment);
   $('#extra-payment').textContent = preciseCurrency(inputs.extra);
   $('#total-payment').textContent = preciseCurrency(baseline.payment + inputs.extra);
@@ -98,12 +98,12 @@ function renderScenarios() {
   shelf.replaceChildren();
   if (!scenarios.length) {
     const empty = document.createElement('div'); empty.className = 'empty-shelf';
-    empty.innerHTML = '<span aria-hidden="true">↗</span><div><p>A good plan starts with a what-if.</p><small>Save your first scenario above, then compare a few different moves.</small></div>';
+    empty.innerHTML = '<span aria-hidden="true">↗</span><div><p>No saved scenarios.</p><small>Use “Save this scenario” to add one.</small></div>';
     shelf.append(empty); return;
   }
   const wrap = document.createElement('div'); wrap.className = 'scenario-table-wrap';
   const table = document.createElement('table');
-  table.innerHTML = '<caption class="sr-only">Saved mortgage scenarios</caption><thead><tr><th scope="col">Scenario</th><th scope="col">Monthly extra</th><th scope="col">Interest saved</th><th scope="col">Time back</th><th scope="col">Actions</th></tr></thead>';
+  table.innerHTML = '<caption class="sr-only">Saved mortgage scenarios</caption><thead><tr><th scope="col">Scenario</th><th scope="col">Monthly extra</th><th scope="col">Interest saved</th><th scope="col">Time saved</th><th scope="col">Actions</th></tr></thead>';
   const body = document.createElement('tbody');
   scenarios.forEach(scenario => {
     const comparison = compareMortgage(scenario.inputs);
@@ -129,20 +129,20 @@ $('#mortgage-form').addEventListener('submit', event => event.preventDefault());
 document.querySelectorAll('.cut').forEach(button => button.addEventListener('click', () => { button.setAttribute('aria-pressed', String(button.getAttribute('aria-pressed') !== 'true')); update(); }));
 $('#save-scenario').addEventListener('click', () => {
   if (!update()) return;
-  if (scenarios.length >= 6) { notify('Your shelf holds six scenarios. Remove one to make room.'); return; }
+  if (scenarios.length >= 6) { notify('Six scenarios saved. Delete one to save another.'); return; }
   $('#scenario-name').value = '';
-  $('#save-description').textContent = `${currency(inputs.extra)}/month extra · ${currency(result.savedInterest)} interest saved · ${duration(result.savedMonths)} back.`;
+  $('#save-description').textContent = `${currency(inputs.extra)}/month extra · ${currency(result.savedInterest)} interest saved · ${duration(result.savedMonths)} sooner.`;
   $('#scenario-dialog').showModal();
   $('#scenario-name').focus();
 });
 $('#save-form').addEventListener('submit', event => {
   event.preventDefault();
   const name = $('#scenario-name').value.trim();
-  if (!name) { $('#scenario-name').setCustomValidity('Give this scenario a name.'); $('#scenario-name').reportValidity(); return; }
+  if (!name) { $('#scenario-name').setCustomValidity('Enter a scenario name.'); $('#scenario-name').reportValidity(); return; }
   if (scenarios.length >= 6 || !validInputs(inputs)) return;
   scenarios.push({ id: crypto.randomUUID(), name, inputs: { ...inputs } });
   const saved = persist(keys.scenarios, scenarios); renderScenarios(); $('#scenario-dialog').close();
-  notify(saved ? 'Scenario saved to your shelf.' : 'Saved for this session only; browser storage is unavailable.');
+  notify(saved ? 'Scenario saved.' : 'Saved for this session only; browser storage is unavailable.');
 });
 $('#scenario-name').addEventListener('input', () => $('#scenario-name').setCustomValidity(''));
 document.querySelectorAll('.dialog-close').forEach(button => button.onclick = () => button.closest('dialog').close());
@@ -151,7 +151,7 @@ $('#export-csv').onclick = () => {
   if (!update()) return;
   const url = URL.createObjectURL(new Blob([scheduleCSV(result.accelerated)], { type: 'text/csv;charset=utf-8;' }));
   const link = document.createElement('a'); link.href = url; link.download = `overpayment-club-${inputs.extra}-extra.csv`; link.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000); notify('Your payment-by-payment schedule is ready.');
+  setTimeout(() => URL.revokeObjectURL(url), 1000); notify('Schedule downloaded.');
 };
 
 const restored = read(keys.inputs);
